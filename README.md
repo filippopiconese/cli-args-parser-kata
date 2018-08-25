@@ -2,6 +2,18 @@
 
 Kata exercise which regards how to parse a cli input
 
+## How to run the program
+
+```
+node ./bin/run <input>
+```
+
+or
+
+```
+npm start
+```
+
 ## Allowed input
 
 It's possible to give as input a string which has one of the following structures:

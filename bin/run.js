@@ -1,8 +1,14 @@
 // Here we will run the index
 const flagsParser = require('../index')
 
-function main (input) {
-  return flagsParser(input)
+const args = process.argv.slice(2)
+
+function main () {
+  const flagsWithValues = flagsParser(args)
+
+  console.log(flagsWithValues)
+
+  return flagsWithValues
 }
 
-console.log(main(['--foo', '--bar', 'baz', '--bar', 'zab', '--number', 1]))
+main()

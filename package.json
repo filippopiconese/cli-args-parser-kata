@@ -14,7 +14,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node ./bin/run",
+    "start": "node ./bin/run ['--foo', '--bar', 'baz', '--bar', 'zab', '--number', 1]",
     "test": "ava \"tests/**/*.spec.js\""
   },
   "repository": {
