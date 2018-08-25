@@ -7,7 +7,11 @@ module.exports = function parseFlags (stringInput) {
     let n = stringInput.indexOf('--') + 2
     let k = stringInput.indexOf(' ') === -1 ? stringInput.length : stringInput.indexOf(' ')
 
-    parsedFlags[stringInput.slice(n, k)] = true
+    if (k === stringInput.length) {
+      parsedFlags[stringInput.slice(n, k)] = true
+    } else {
+      parsedFlags[stringInput.slice(n, k)] = stringInput.slice(k + 1)
+    }
   }
 
   return parsedFlags

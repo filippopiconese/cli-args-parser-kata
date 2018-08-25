@@ -23,3 +23,11 @@ test('Parse a simple flag', t => {
 
   t.deepEqual(flagsParser(INPUT), OUTPUT)
 })
+
+test('Parse a composite flag', t => {
+  const INPUT = '--foo bar'
+
+  const OUTPUT = { 'foo': 'bar' }
+
+  t.deepEqual(flagsParser(INPUT), OUTPUT)
+})
