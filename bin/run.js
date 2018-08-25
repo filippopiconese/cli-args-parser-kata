@@ -5,4 +5,4 @@ function main (stringInput) {
   return flagsParser(stringInput)
 }
 
-console.log(main('--foo bar'))
+console.log(main('--foo 53'))

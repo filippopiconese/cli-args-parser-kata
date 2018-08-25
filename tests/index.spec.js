@@ -16,7 +16,7 @@ test('Wrong string given as input', t => {
   t.deepEqual(flagsParser(INPUT), OUTPUT)
 })
 
-test('Parse a simple flag', t => {
+test('Parse a simple flags', t => {
   const INPUT = '--foo'
 
   const OUTPUT = { 'foo': true }
@@ -24,10 +24,18 @@ test('Parse a simple flag', t => {
   t.deepEqual(flagsParser(INPUT), OUTPUT)
 })
 
-test('Parse a composite flag', t => {
+test('Parse a composite flags', t => {
   const INPUT = '--foo bar'
 
   const OUTPUT = { 'foo': 'bar' }
+
+  t.deepEqual(flagsParser(INPUT), OUTPUT)
+})
+
+test('Parse a composite flags with integer values', t => {
+  const INPUT = '--number 1'
+
+  const OUTPUT = { 'number': 1 }
 
   t.deepEqual(flagsParser(INPUT), OUTPUT)
 })

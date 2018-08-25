@@ -9,3 +9,5 @@ It's possible to give as input a string which has one of the following structure
 * '--foo'
 
 * '--foo bar'
+
+* '--foo 3000'
