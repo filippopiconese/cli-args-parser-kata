@@ -6,15 +6,36 @@ module.exports = function parseFlags (str) {
 
 function getParsedFlags (str) {
   const parsedFlags = {}
+  let editableStr = str
 
-  if (str.includes('--')) {
-    let n = str.indexOf('--') + 2
-    let k = str.indexOf(' ') === -1 ? str.length : str.indexOf(' ')
+  while (editableStr.includes('--') && editableStr.length > 0) {
+    let n = editableStr.indexOf('--') + 2
+    let k = editableStr.indexOf(' ') === -1 ? editableStr.length : editableStr.indexOf(' ')
 
-    if (k === str.length) {
-      parsedFlags[str.slice(n, k)] = true
+    const flag = editableStr.slice(n, k).trim()
+
+    if (k === editableStr.length) {
+      parsedFlags[flag] = true
+
+      editableStr = ''
     } else {
-      parsedFlags[str.slice(n, k)] = parseInt(str.slice(k + 1)) || str.slice(k + 1)
+      if (editableStr.charAt(k + 1) === '-') {
+        parsedFlags[flag] = true
+
+        editableStr = editableStr.slice(k).trim()
+      } else {
+        editableStr = editableStr.slice(k).trim()
+
+        const noMoreFlags = editableStr.indexOf('--') === -1
+
+        const value = noMoreFlags
+          ? editableStr.slice(0, editableStr.length).trim()
+          : editableStr.slice(0, editableStr.indexOf('--')).trim()
+
+        parsedFlags[flag] = parseInt(value) || value
+
+        editableStr = editableStr.slice(editableStr.indexOf('--')).trim()
+      }
     }
   }
 
