@@ -1,0 +1,29 @@
+{
+  "name": "cli-args-parser-kata",
+  "version": "1.0.0",
+  "description": "Kata exercise which regards how to parse a cli input",
+  "main": "index.js",
+  "bin": {
+    "cli-args-parser-kata": "run.js"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "ava": "^0.25.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "ava \"tests/**/*.spec.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/filippopiconese/cli-args-parser-kata.git"
+  },
+  "author": "Filippo Piconese",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/filippopiconese/cli-args-parser-kata/issues"
+  },
+  "homepage": "https://github.com/filippopiconese/cli-args-parser-kata#readme"
+}
