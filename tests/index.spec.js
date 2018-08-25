@@ -2,56 +2,68 @@ import test from 'ava'
 
 const flagsParser = require('../index')
 
-test('0 => Should throws because the input is not a string', t => {
-  const error = flagsParser(['ciao'])
+test('Should throws because the input is nor a string neither an array', t => {
+  const error = flagsParser({ foo: 'foo' })
 
-  t.is(error.message, 'Wrong input, only a string is allowed as input.')
+  t.is(error.message, 'Wrong input, only a string or an array are allowed.')
 })
 
-test('0 => Wrong string given as input', t => {
-  const INPUT = 'foo'
+test('Wrong string given as input', t => {
+  const STRING_INPUT = 'foo'
+  const ARRAY_INPUT = ['foo']
 
   const OUTPUT = {}
 
-  t.deepEqual(flagsParser(INPUT), OUTPUT)
+  t.deepEqual(flagsParser(STRING_INPUT), OUTPUT)
+  t.deepEqual(flagsParser(ARRAY_INPUT), OUTPUT)
 })
 
-test('1 => Parse a simple flags', t => {
-  const INPUT = '--foo'
+test('Parse a simple flags', t => {
+  const STRING_INPUT = '--foo'
+  const ARRAY_INPUT = ['--foo']
 
   const OUTPUT = { 'foo': true }
 
-  t.deepEqual(flagsParser(INPUT), OUTPUT)
+  t.deepEqual(flagsParser(STRING_INPUT), OUTPUT)
+  t.deepEqual(flagsParser(ARRAY_INPUT), OUTPUT)
 })
 
-test('2 => Parse a composite flags', t => {
-  const INPUT = '--foo bar'
+test('Parse a composite flags', t => {
+  const STRING_INPUT = '--foo bar'
+  const ARRAY_INPUT = ['--foo', 'bar']
 
   const OUTPUT = { 'foo': 'bar' }
 
-  t.deepEqual(flagsParser(INPUT), OUTPUT)
+  t.deepEqual(flagsParser(STRING_INPUT), OUTPUT)
+  t.deepEqual(flagsParser(ARRAY_INPUT), OUTPUT)
 })
 
-test('3 => Parse a composite flags with integer values', t => {
-  const INPUT = '--number 1'
+test('Parse a composite flags with integer values', t => {
+  const STRING_INPUT = '--number 1'
+  const ARRAY_INPUT = ['--number', 1]
 
   const OUTPUT = { 'number': 1 }
 
-  t.deepEqual(flagsParser(INPUT), OUTPUT)
+  t.deepEqual(flagsParser(STRING_INPUT), OUTPUT)
+  t.deepEqual(flagsParser(ARRAY_INPUT), OUTPUT)
 })
 
-test('4 => Parse multiple flags at once', t => {
-  const INPUT = '--foo --bar baz --number 1'
+test('Parse multiple flags at once', t => {
+  const STRING_INPUT = '--foo --bar baz --number 1'
+  const ARRAY_INPUT = ['--foo', '--bar', 'baz', '--number', 1]
 
   const OUTPUT = { 'bar': 'baz', 'foo': true, 'number': 1 }
 
-  t.deepEqual(flagsParser(INPUT), OUTPUT)
+  t.deepEqual(flagsParser(STRING_INPUT), OUTPUT)
+  t.deepEqual(flagsParser(ARRAY_INPUT), OUTPUT)
 })
 
-test('5 => Handle multiple values for the same flag', t => {
-  const INPUT = '--foo --bar baz --bar zab --number 1'
+test('Handle multiple values for the same flag', t => {
+  const STRING_INPUT = '--foo --bar baz --bar zab --number 1'
+  const ARRAY_INPUT = ['--foo', '--bar', 'baz', '--bar', 'zab', '--number', 1]
 
   const OUTPUT = { 'bar': ['baz', 'zab'], 'foo': true, 'number': 1 }
 
-  t.deepEqual(flagsParser(INPUT), OUTPUT)
+  t.deepEqual(flagsParser(STRING_INPUT), OUTPUT)
+  t.deepEqual(flagsParser(ARRAY_INPUT), OUTPUT)
 })

@@ -6,12 +6,12 @@ Kata exercise which regards how to parse a cli input
 
 It's possible to give as input a string which has one of the following structures:
 
-* '--foo'
+* '--foo' || ['--foo']
 
-* '--foo bar'
+* '--foo bar' || ['--foo', 'bar']
 
-* '--foo 3000'
+* '--foo 3000' || ['--number', 1]
 
-* '--foo --bar baz --number 1'
+* '--foo --bar baz --number 1' || ['--foo', '--bar', 'baz', '--number', 1]
 
-* --foo --bar baz --bar zab --number 1
+* --foo --bar baz --bar zab --number 1 || ['--foo', '--bar', 'baz', '--bar', 'zab', '--number', 1]
