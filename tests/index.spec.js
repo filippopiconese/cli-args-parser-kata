@@ -7,3 +7,19 @@ test('Should throws because the input is not a string', t => {
 
   t.is(error.message, 'Wrong input, only a string is allowed as input.')
 })
+
+test('Wrong string given as input', t => {
+  const INPUT = 'foo'
+
+  const OUTPUT = {}
+
+  t.deepEqual(flagsParser(INPUT), OUTPUT)
+})
+
+test('Parse a simple flag', t => {
+  const INPUT = '--foo'
+
+  const OUTPUT = { 'foo': true }
+
+  t.deepEqual(flagsParser(INPUT), OUTPUT)
+})
