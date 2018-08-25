@@ -13,3 +13,5 @@ It's possible to give as input a string which has one of the following structure
 * '--foo 3000'
 
 * '--foo --bar baz --number 1'
+
+* --foo --bar baz --bar zab --number 1

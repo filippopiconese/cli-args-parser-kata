@@ -14,13 +14,17 @@ function getParsedFlags (str) {
 
     const flag = editableStr.slice(n, k).trim()
 
+    if (parsedFlags[flag] !== undefined) {
+      parsedFlags[flag] = [parsedFlags[flag]]
+    }
+
     if (k === editableStr.length) {
-      parsedFlags[flag] = true
+      Array.isArray(parsedFlags[flag]) ? parsedFlags[flag].push(true) : parsedFlags[flag] = true
 
       editableStr = ''
     } else {
       if (editableStr.charAt(k + 1) === '-') {
-        parsedFlags[flag] = true
+        Array.isArray(parsedFlags[flag]) ? parsedFlags[flag].push(true) : parsedFlags[flag] = true
 
         editableStr = editableStr.slice(k).trim()
       } else {
@@ -32,7 +36,7 @@ function getParsedFlags (str) {
           ? editableStr.slice(0, editableStr.length).trim()
           : editableStr.slice(0, editableStr.indexOf('--')).trim()
 
-        parsedFlags[flag] = parseInt(value) || value
+        Array.isArray(parsedFlags[flag]) ? parsedFlags[flag].push(parseInt(value) || value) : parsedFlags[flag] = parseInt(value) || value
 
         editableStr = editableStr.slice(editableStr.indexOf('--')).trim()
       }

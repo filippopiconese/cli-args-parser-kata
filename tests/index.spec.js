@@ -47,3 +47,11 @@ test('4 => Parse multiple flags at once', t => {
 
   t.deepEqual(flagsParser(INPUT), OUTPUT)
 })
+
+test('5 => Handle multiple values for the same flag', t => {
+  const INPUT = '--foo --bar baz --bar zab --number 1'
+
+  const OUTPUT = { 'bar': ['baz', 'zab'], 'foo': true, 'number': 1 }
+
+  t.deepEqual(flagsParser(INPUT), OUTPUT)
+})
