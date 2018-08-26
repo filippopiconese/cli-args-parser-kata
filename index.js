@@ -43,7 +43,7 @@ function getParsedFlags (str) {
           ? editableStr.slice(0, editableStr.length).trim()
           : editableStr.slice(0, editableStr.indexOf(flagIndicator)).trim()
 
-        parsedFlags[flag] = insertValue(parsedFlags, flag, parseInt(value) || value)
+        parsedFlags[flag] = insertValue(parsedFlags, flag, value)
 
         editableStr = editableStr.slice(editableStr.indexOf(flagIndicator)).trim()
       }
@@ -54,9 +54,9 @@ function getParsedFlags (str) {
 }
 
 function insertValue (parsedFlags, flag, value) {
-  if (parsedFlags[flag] === undefined) return value
+  if (parsedFlags[flag] === undefined) return parseInt(value) || value
 
-  if (Array.isArray(parsedFlags[flag])) return parsedFlags[flag].push(value)
+  if (Array.isArray(parsedFlags[flag])) return parsedFlags[flag].push(parseInt(value) || value)
 
-  return [parsedFlags[flag], value]
+  return [parsedFlags[flag], parseInt(value) || value]
 }
