@@ -16,37 +16,51 @@ function stringifyInput (input) {
 
 function getParsedFlags (str) {
   const parsedFlags = {}
-  const flagIndicator = '--'
-  let editableStr = str
 
-  while (editableStr.includes(flagIndicator) && editableStr.length > 0) {
-    const n = editableStr.indexOf(flagIndicator) + 2
-    const k = editableStr.indexOf(' ') === -1 ? editableStr.length : editableStr.indexOf(' ')
+  let flagIndicator = ''
+  let flag = ''
+  let valueIncoming = false
+  let value = ''
 
-    const flag = editableStr.slice(n, k).trim()
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charAt(i)
 
-    if (k === editableStr.length) {
-      parsedFlags[flag] = insertValue(parsedFlags, flag, true)
+    if (flagIndicator === '--' && !valueIncoming && char !== ' ') {
+      flag += char
+    }
 
-      editableStr = ''
-    } else {
-      if (editableStr.charAt(k + 1) === '-') {
+    if (char === '-') {
+      flagIndicator += '-'
+    }
+
+    if (valueIncoming) {
+      value += char
+    }
+
+    if (char === ' ' && valueIncoming) { // we have found a value for the flag
+      parsedFlags[flag] = insertValue(parsedFlags, flag, value)
+
+      flagIndicator = ''
+      flag = ''
+      value = ''
+      valueIncoming = false
+    }
+
+    if (char === ' ' && flag !== '' && !valueIncoming) {
+      if (str.charAt(i + 1) === '-') { // the flag has not a value
         parsedFlags[flag] = insertValue(parsedFlags, flag, true)
 
-        editableStr = editableStr.slice(k).trim()
+        flagIndicator = ''
+        flag = ''
       } else {
-        editableStr = editableStr.slice(k).trim()
-
-        const noMoreFlags = editableStr.indexOf(flagIndicator) === -1
-
-        const value = noMoreFlags
-          ? editableStr.slice(0, editableStr.length).trim()
-          : editableStr.slice(0, editableStr.indexOf(flagIndicator)).trim()
-
-        parsedFlags[flag] = insertValue(parsedFlags, flag, value)
-
-        editableStr = editableStr.slice(editableStr.indexOf(flagIndicator)).trim()
+        valueIncoming = true
       }
+    }
+
+    if (str.charAt(i + 1) === '' && flag !== '') { // it's useful at the end of the string in order to get the final value
+      value === ''
+        ? parsedFlags[flag] = insertValue(parsedFlags, flag, true)
+        : parsedFlags[flag] = insertValue(parsedFlags, flag, value)
     }
   }
 
@@ -54,9 +68,11 @@ function getParsedFlags (str) {
 }
 
 function insertValue (parsedFlags, flag, value) {
-  if (parsedFlags[flag] === undefined) return parseInt(value) || value
+  const trimValue = typeof value === 'string' ? value.trim() : value
 
-  if (Array.isArray(parsedFlags[flag])) return parsedFlags[flag].push(parseInt(value) || value)
+  if (parsedFlags[flag] === undefined) return parseInt(trimValue) || trimValue
 
-  return [parsedFlags[flag], parseInt(value) || value]
+  if (Array.isArray(parsedFlags[flag])) return parsedFlags[flag].push(parseInt(trimValue) || trimValue)
+
+  return [parsedFlags[flag], parseInt(trimValue) || trimValue]
 }
